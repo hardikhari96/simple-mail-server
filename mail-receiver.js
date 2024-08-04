@@ -10,11 +10,11 @@ const server = new SMTPServer({
     },
     onData: (stream, session, callback) => {
         let emailData = '';
+        let fileName = + new Date();
         stream.on('data', (chunk) => {
             emailData += chunk;
         });
         stream.on('end', () => {
-            let fileName = + new Date();
             if(!fs.existsSync("mails")) fs.mkdirSync("mails");
             fs.writeFileSync(`mails/${fileName}.eml`, emailData); // Save email to a file
             callback(null, 'Message accepted'); // Indicate that the message was accepted
