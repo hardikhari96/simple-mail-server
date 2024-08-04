@@ -14,7 +14,9 @@ const server = new SMTPServer({
             emailData += chunk;
         });
         stream.on('end', () => {
-            fs.writeFileSync('email.eml', emailData); // Save email to a file
+            let fileName = + new Date();
+            if(!fs.existsSync("mails")) fs.mkdirSync("mails");
+            fs.writeFileSync(`mails/${fileName}.eml`, emailData); // Save email to a file
             callback(null, 'Message accepted'); // Indicate that the message was accepted
         });
     },
